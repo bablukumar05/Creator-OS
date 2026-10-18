@@ -1,0 +1,70 @@
+services:
+  server:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - NODE_ENV=production
+      - MONGO_URI=mongodb://mongo:27017/creatoros_prod
+      - REDIS_URL=redis://redis:6379
+      - CLIENT_URL=http://localhost
+      - SERVER_URL=http://localhost:5000
+      - JWT_SECRET=${JWT_SECRET:-creatoros_production_secret_key_minimum_32_characters_long}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-}
+      - AWS_REGION=${AWS_REGION:-ap-south-1}
+      - AWS_S3_BUCKET=${AWS_S3_BUCKET:-creatoros-storage}
+      - R2_ACCOUNT_ID=${R2_ACCOUNT_ID:-}
+      - R2_ACCESS_KEY_ID=${R2_ACCESS_KEY_ID:-}
+      - R2_SECRET_ACCESS_KEY=${R2_SECRET_ACCESS_KEY:-}
+      - R2_BUCKET=${R2_BUCKET:-}
+      - R2_PUBLIC_URL=${R2_PUBLIC_URL:-}
+    depends_on:
+      - mongo
+      - redis
+    networks:
+      - creatoros-network
+
+  client:
+    build:
+      context: .
+      dockerfile: client/Dockerfile
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - server
+    networks:
+      - creatoros-network
+
+  mongo:
+    image: mongo:7-jammy
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - creatoros-network
+
+  redis:
+    image: redis:7-alpine
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - creatoros-network
+
+volumes:
+  mongo_data:
+  redis_data:
+
+networks:
+  creatoros-network:
+    driver: bridge

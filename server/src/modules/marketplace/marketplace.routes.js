@@ -1,0 +1,14 @@
+import { Router } from 'express';
+import * as controller from './marketplace.controller.js';
+import { authenticate } from '../../../middleware/auth.js';
+import { requireOrganization } from '../../middleware/organization.middleware.js';
+import { asyncRoute } from '../../../utils/http.js';
+export const marketplaceRouter = Router();
+marketplaceRouter.get('/creators', asyncRoute(controller.discover));
+marketplaceRouter.use(authenticate);
+marketplaceRouter.get('/invitations', asyncRoute(controller.listInvites));
+marketplaceRouter.post('/invitations', requireOrganization, asyncRoute(controller.createInvite));
+marketplaceRouter.post('/offers', asyncRoute(controller.createOfferHandler));
+marketplaceRouter.post('/offers/:offerId/accept', asyncRoute(controller.acceptOfferHandler));
+marketplaceRouter.post('/reviews', requireOrganization, asyncRoute(controller.createReview));
+marketplaceRouter.post('/campaigns/:campaignId/matches', requireOrganization, asyncRoute(controller.matchCampaign));

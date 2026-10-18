@@ -1,0 +1,35 @@
+export const CONTENT_STATUSES = Object.freeze([
+  'Idea',
+  'Research',
+  'Script',
+  'Shoot',
+  'Edit',
+  'Review',
+  'Schedule',
+  'Draft',
+  'Scheduled',
+  'Published',
+  'Archived',
+]);
+export const CONTENT_TYPES = Object.freeze([
+  'Video',
+  'Reel',
+  'Short',
+  'Post',
+  'Story',
+  'Article',
+  'Livestream',
+]);
+export const CONTENT_SORT_FIELDS = Object.freeze([
+  'createdAt',
+  'title',
+  'status',
+  'publishDate',
+  'dueDate',
+  'publishedAt',
+  'views',
+  'likes',
+  'comments',
+  'shares',
+  'saves',
+]);

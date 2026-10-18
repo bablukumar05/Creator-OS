@@ -1,0 +1,12 @@
+import { Router } from 'express';
+import * as controller from './organization.controller.js';
+import { authenticate } from '../../../middleware/auth.js';
+import { asyncRoute } from '../../../utils/http.js';
+export const organizationRouter = Router();
+organizationRouter.use(authenticate);
+organizationRouter.get('/', asyncRoute(controller.list));
+organizationRouter.get('/current', asyncRoute(controller.current));
+organizationRouter.patch('/current', asyncRoute(controller.updateCurrent));
+organizationRouter.patch('/', asyncRoute(controller.updateCurrent));
+organizationRouter.post('/', asyncRoute(controller.create));
+organizationRouter.post('/:id/switch', asyncRoute(controller.switchWorkspace));

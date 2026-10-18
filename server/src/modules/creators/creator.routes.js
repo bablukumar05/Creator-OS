@@ -1,0 +1,12 @@
+import { Router } from 'express';
+import * as controller from './creator.controller.js';
+import { authenticate } from '../../../middleware/auth.js';
+import { asyncRoute } from '../../../utils/http.js';
+export const creatorRouter = Router();
+creatorRouter.get('/public/:username', asyncRoute(controller.getPublicByUsername));
+creatorRouter.post('/public/:username/inquire', asyncRoute(controller.submitInquiry));
+creatorRouter.use(authenticate);
+creatorRouter.get('/profile', asyncRoute(controller.getProfile));
+creatorRouter.patch('/profile', asyncRoute(controller.updateProfile));
+creatorRouter.post('/socials', asyncRoute(controller.upsertSocial));
+creatorRouter.post('/rate-card', asyncRoute(controller.upsertRates));
