@@ -10,7 +10,6 @@
     "server"
   ],
   "scripts": {
-    "setup:env": "node scripts/setup-env.mjs",
     "config:check": "node server/scripts/check-config.js",
     "db:check": "node server/scripts/check-config.js --connect",
     "data:check": "node server/scripts/verify-data.js",
@@ -29,7 +28,6 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.5",
-    "@playwright/test": "^1.55.0",
     "concurrently": "^9.2.1",
     "cross-env": "^7.0.3",
     "eslint": "^9.39.5",
