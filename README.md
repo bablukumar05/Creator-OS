@@ -71,28 +71,6 @@ When running in demo mode (`DEMO_MODE=true`), you can use the pre-configured acc
 
 ---
 
-## Project Structure
-
-```text
-Creator-OS/
-├── client/              # React 18 frontend (Vite, Tailwind CSS, Zustand)
-│   ├── src/
-│   │   ├── components/  # Shared UI controls, charts, and modals
-│   │   ├── features/    # Modular studio components (AI, Video, Escrow)
-│   │   ├── layouts/     # Workspace shell and navigation
-│   │   └── pages/       # Route views (Landing, Dashboard, Studios, Settings)
-│   └── public/          # Static media and icons
-├── server/              # Express API server
-│   ├── src/modules/     # Domain-driven feature modules
-│   ├── controllers/     # Route handler controllers
-│   ├── models/          # Mongoose database models
-│   ├── routes/          # API endpoint declarations
-│   └── seed/            # Development and demo database seeders
-└── shared/              # Shared data contracts, schemas, and enums
-```
-
----
-
 ## Available Scripts
 
 | Script | Purpose |
@@ -103,9 +81,3 @@ Creator-OS/
 | `npm run lint` | Run ESLint across the codebase |
 | `npm run seed` | Seed development database with authentic demo records |
 | `npm run seed:reset` | Reset demo records to fresh state |
-
----
-
-## License
-
-MIT © CreatorOS Core Engineering Team
