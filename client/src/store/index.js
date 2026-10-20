@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { api } from '../services/api';
-import { organizationApi } from '../features/organizations/api/organizationApi';
+import { organizationApi } from '../services/api';
 let initialization;
 export const useUI = create((set) => ({
   theme: localStorage.getItem('creatoros-theme') || 'light',

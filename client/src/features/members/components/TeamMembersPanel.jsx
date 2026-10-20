@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { UserPlus, Copy, Trash2, Shield } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useOrganization } from '../../../store';
-import { memberApi } from '../api/memberApi';
+import { memberApi } from '../../../services/api';
 import { useData } from '../../../hooks/useData';
 import { message } from '../../../services/api';
 import { Button, Loading, ErrorState } from '../../../components/ui';

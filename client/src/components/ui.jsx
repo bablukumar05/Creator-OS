@@ -83,7 +83,7 @@ export function StatCard({ label, value, change, icon: Icon, detail, spark = fal
       </div>
       <div className="mt-4 flex items-end justify-between gap-2">
         <div>
-          <p className="text-[27px] font-semibold leading-none tracking-[-1.2px]">{value}</p>
+          <p className="text-[20px] sm:text-[24px] lg:text-[27px] font-semibold leading-none tracking-[-1px] truncate">{value}</p>
           <div className="mt-3 flex flex-wrap items-center gap-1.5 text-[10px]">
             {change != null ? (
               <span
@@ -265,6 +265,42 @@ export function Success({ children }) {
     <div className="flex items-center gap-2 rounded-lg bg-sage p-3 text-xs text-accent">
       <Check size={16} />
       {children}
+    </div>
+  );
+}
+const workspaceBg = '/images/backgrounds/workspace.webp';
+const cameraBg = '/images/backgrounds/camera.webp';
+const planningBg = '/images/backgrounds/planning.webp';
+export const pageBackgrounds = {
+  dashboard: workspaceBg,
+  content: cameraBg,
+  calendar: planningBg,
+  brands: workspaceBg,
+  deals: planningBg,
+  campaigns: planningBg,
+  tasks: planningBg,
+  revenue: planningBg,
+  expenses: planningBg,
+  invoices: planningBg,
+  analytics: workspaceBg,
+  media: cameraBg,
+  notifications: planningBg,
+  profile: workspaceBg,
+  settings: workspaceBg,
+  admin: workspaceBg,
+  auth: workspaceBg,
+};
+export function PageBackground({ page = 'dashboard', className = '' }) {
+  return (
+    <div aria-hidden="true" className={`page-decoration ${className}`}>
+      <img
+        src={pageBackgrounds[page] || workspaceBg}
+        alt=""
+        loading="lazy"
+        onError={(e) => {
+          e.currentTarget.style.display = 'none';
+        }}
+      />
     </div>
   );
 }

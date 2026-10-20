@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import { api, message } from '../services/api';
 import { useAuth } from '../store';
 import { Button, Logo } from '../components/ui';
-import { PageBackground } from '../config/pageBackgrounds';
+import { PageBackground } from '../components/ui';
 import { validatePassword } from '../validations/auth';
 function PasswordInput({ registration, label = 'Password', name = 'password' }) {
   const [visible, setVisible] = useState(false);
@@ -135,8 +135,9 @@ export default function Auth() {
     try {
       if (isLogin) {
         const response = await api.post('/auth/login', values);
-        setUser(response.data.data);
-        navigate(response.data.data.role === 'admin' ? '/admin' : '/dashboard');
+        const userData = response.data.data?.user || response.data.data;
+        setUser(userData);
+        navigate(userData?.role === 'admin' ? '/admin' : '/dashboard', { replace: true });
         toast.success('Welcome back.');
       } else if (isRegister) {
         await api.post('/auth/register', values);
@@ -153,8 +154,9 @@ export default function Auth() {
           { email, otp },
         );
         if (route === 'verify-email') {
-          setUser(response.data.data);
-          navigate('/dashboard');
+          const userData = response.data.data?.user || response.data.data;
+          setUser(userData);
+          navigate(userData?.role === 'admin' ? '/admin' : '/dashboard', { replace: true });
           toast.success('Email verified.');
         } else navigate('/reset-password');
       } else if (isReset) {
@@ -177,8 +179,9 @@ export default function Auth() {
         identifier: `${role}@creatoros.demo`,
         password: role === 'admin' ? 'Admin@123' : 'Creator@123',
       });
-      setUser(response.data.data);
-      navigate(role === 'admin' ? '/admin' : '/dashboard');
+      const userData = response.data.data?.user || response.data.data;
+      setUser(userData);
+      navigate(userData?.role === 'admin' ? '/admin' : '/dashboard', { replace: true });
     } catch (e) {
       setError(message(e));
     } finally {

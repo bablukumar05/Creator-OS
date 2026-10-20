@@ -11,7 +11,7 @@ try {
   if (await User.exists({ email }))
     throw new Error('An account with this email already exists. No changes made.');
   const user = await User.create({
-    name: process.env.ADMIN_NAME || 'Workspace Admin',
+    name: process.env.ADMIN_NAME || 'Admin',
     email,
     password: await bcrypt.hash(password, 12),
     role: 'admin',

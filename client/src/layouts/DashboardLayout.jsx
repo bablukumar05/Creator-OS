@@ -40,7 +40,7 @@ import { api, service, message } from '../services/api';
 import { useDebounce, useData } from '../hooks/useData';
 import { Logo, Modal } from '../components/ui';
 import { initials, pathFor } from '../utils/format';
-import { PageBackground } from '../config/pageBackgrounds';
+import { PageBackground } from '../components/ui';
 const groups = [
   {
     title: 'WORKSPACE',
@@ -222,6 +222,7 @@ export default function DashboardLayout() {
                 <NavLink
                   key={path}
                   to={path}
+                  onClick={() => setOpen(false)}
                   className={({ isActive }) =>
                     `mb-0.5 flex items-center gap-3 rounded-lg px-3 py-2.5 text-[12px] transition-colors ${isActive ? 'bg-sage font-semibold text-accent' : 'text-[#777f75] hover:bg-canvas dark:text-muted'}`
                   }
@@ -238,6 +239,7 @@ export default function DashboardLayout() {
           {user.role === 'admin' && (
             <NavLink
               to="/admin"
+              onClick={() => setOpen(false)}
               className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-xs text-accent"
             >
               <Shield size={16} />
@@ -259,6 +261,7 @@ export default function DashboardLayout() {
         <div className="border-t border-line p-3">
           <NavLink
             to="/settings"
+            onClick={() => setOpen(false)}
             className="flex items-center gap-3 rounded-lg px-3 py-2 text-xs text-muted hover:bg-canvas"
           >
             <Settings size={16} />
@@ -367,7 +370,7 @@ export default function DashboardLayout() {
                 )}
               </button>
               {notifications && (
-                <div className="card absolute -right-16 top-12 w-[280px] p-2 shadow-lg sm:right-0">
+                <div className="card absolute right-0 top-12 w-[280px] max-w-[calc(100vw-32px)] p-2 shadow-lg">
                   <div className="flex items-center justify-between p-2">
                     <p className="text-xs font-semibold">Your notifications</p>
                     <span className="badge bg-sage">{unread.data?.count || 0} new</span>
@@ -416,7 +419,7 @@ export default function DashboardLayout() {
                 <span className="sr-only sm:hidden">Create new</span>
               </button>
               {quick && (
-                <div className="card absolute right-0 top-12 w-48 p-2 shadow-lg">
+                <div className="card absolute right-0 top-12 w-48 max-w-[calc(100vw-32px)] p-2 shadow-lg">
                   {['content', 'campaigns', 'deals', 'tasks', 'revenue', 'invoices'].map((key) => (
                     <Link
                       key={key}
@@ -458,7 +461,7 @@ export default function DashboardLayout() {
             </div>
           </Modal>
         )}
-        <main className="relative isolate mx-auto max-w-[1640px] p-4 pb-10 md:p-8">
+        <main className="relative isolate mx-auto max-w-[1640px] w-full min-w-0 p-3 sm:p-5 md:p-8 pb-12 overflow-x-hidden">
           <PageBackground page={page} />
           <Outlet key={currentOrganization?._id || 'default'} />
         </main>

@@ -70,9 +70,13 @@ export default function PublicContractSign() {
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     const rect = canvas.getBoundingClientRect();
-    // normalize coordinate offset across mouse click and touch devices
-    const x = (e.clientX || e.touches?.[0]?.clientX) - rect.left;
-    const y = (e.clientY || e.touches?.[0]?.clientY) - rect.top;
+    // normalize coordinate offset across mouse click and touch devices with dynamic scaling
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const clientX = e.clientX ?? e.touches?.[0]?.clientX ?? 0;
+    const clientY = e.clientY ?? e.touches?.[0]?.clientY ?? 0;
+    const x = (clientX - rect.left) * scaleX;
+    const y = (clientY - rect.top) * scaleY;
 
     ctx.beginPath();
     ctx.moveTo(x, y);
@@ -86,8 +90,12 @@ export default function PublicContractSign() {
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     const rect = canvas.getBoundingClientRect();
-    const x = (e.clientX || e.touches?.[0]?.clientX) - rect.left;
-    const y = (e.clientY || e.touches?.[0]?.clientY) - rect.top;
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const clientX = e.clientX ?? e.touches?.[0]?.clientX ?? 0;
+    const clientY = e.clientY ?? e.touches?.[0]?.clientY ?? 0;
+    const x = (clientX - rect.left) * scaleX;
+    const y = (clientY - rect.top) * scaleY;
 
     ctx.lineWidth = 2.5;
     ctx.lineCap = 'round';

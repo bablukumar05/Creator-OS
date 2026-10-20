@@ -32,8 +32,12 @@
 * {
   box-sizing: border-box;
 }
+html,
 body {
   margin: 0;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
 }
 button,
 a,
@@ -188,9 +192,25 @@ p {
 .dark .marketing p {
   color: #a7b19f;
 }
+/* Touch and mobile responsive utilities */
+.touch-scroll {
+  -webkit-overflow-scrolling: touch;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
 @media (max-width: 640px) {
   .page-decoration {
     display: none;
+  }
+  input:not([type='checkbox']):not([type='radio']),
+  select,
+  textarea {
+    font-size: 16px !important;
   }
 }
 @media (prefers-reduced-motion: reduce) {

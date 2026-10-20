@@ -23,7 +23,7 @@ import toast from 'react-hot-toast';
 import CloudStorageUploader from '../features/assets/components/CloudStorageUploader';
 import { resources, platformCategories } from '../../../shared/resources';
 import { api, service, message, downloadInvoice } from '../services/api';
-import { memberApi } from '../features/members/api/memberApi';
+import { memberApi } from '../services/api';
 import { useData, useDebounce } from '../hooks/useData';
 import {
   PageHeader,
@@ -438,7 +438,7 @@ export default function ResourcePage({ resource }) {
           {statuses && (
             <select
               aria-label="Filter by status"
-              className="input w-auto text-xs"
+              className="input w-full sm:w-auto text-xs"
               value={status}
               onChange={(e) => setStatus(e.target.value)}
             >
@@ -451,7 +451,7 @@ export default function ResourcePage({ resource }) {
           {config.fields.some((f) => f.key === 'platform') && (
             <select
               aria-label="Filter by platform"
-              className="input w-auto text-xs"
+              className="input w-full sm:w-auto text-xs"
               value={platform}
               onChange={(e) => setPlatform(e.target.value)}
             >
@@ -468,7 +468,7 @@ export default function ResourcePage({ resource }) {
           {supportsAssigneeFilter && teamMembers.length > 0 && (
             <select
               aria-label="Filter by team member"
-              className="input w-auto text-xs"
+              className="input w-full sm:w-auto text-xs"
               value={assignee}
               onChange={(e) => setAssignee(e.target.value)}
             >
@@ -633,8 +633,8 @@ export default function ResourcePage({ resource }) {
             ))}
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full">
+          <div className="overflow-x-auto touch-scroll">
+            <table className="w-full min-w-[640px]">
               <thead className="table-head">
                 <tr>
                   <th className="w-10 px-5 py-3">

@@ -48,7 +48,7 @@ export default function Dashboard() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title={`Good ${new Date().getHours() < 12 ? 'morning' : new Date().getHours() < 18 ? 'afternoon' : 'evening'}, ${user.name.split(' ')[0]} ☀`}
+        title={`Good ${new Date().getHours() < 12 ? 'morning' : new Date().getHours() < 18 ? 'afternoon' : 'evening'}, ${(user?.name || 'Creator').split(' ')[0]} ☀`}
         description="Here’s what’s happening with your creative business today."
       >
         <Button variant="secondary" onClick={() => exportCSV(data.series, 'overview')}>

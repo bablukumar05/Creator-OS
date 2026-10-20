@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Check, ChevronsUpDown, Plus, KeyRound, Settings2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useAuth, useOrganization } from '../../../store';
-import { memberApi } from '../../members/api/memberApi';
+import { memberApi } from '../../../services/api';
 import { message } from '../../../services/api';
 import { Button, Modal } from '../../../components/ui';
 import { initials } from '../../../utils/format';

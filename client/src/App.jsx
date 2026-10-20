@@ -35,6 +35,17 @@ function Protected({ admin = false }) {
   if (admin && user.role !== 'admin') return <Navigate to="/dashboard" replace />;
   return <Outlet />;
 }
+function GuestOnly() {
+  const { user, loading } = useAuth();
+  if (loading)
+    return (
+      <div className="mx-auto max-w-6xl p-8">
+        <Loading />
+      </div>
+    );
+  if (user) return <Navigate to={user.role === 'admin' ? '/admin' : '/dashboard'} replace />;
+  return <Outlet />;
+}
 export default function App() {
   const { init, setUser } = useAuth();
   const theme = useUI((s) => s.theme);
@@ -56,25 +67,27 @@ export default function App() {
       }
     >
       <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/landing" element={<Landing />} />
+        <Route element={<GuestOnly />}>
+          <Route path="/" element={<Landing />} />
+          <Route path="/landing" element={<Landing />} />
+          {[
+            'login',
+            'register',
+            'forgot-password',
+            'verify-email',
+            'verify-reset-otp',
+            'reset-password',
+            'complete-account',
+          ].map((path) => (
+            <Route key={path} path={`/${path}`} element={<Auth />} />
+          ))}
+        </Route>
         <Route path="/privacy" element={<Legal privacy />} />
         <Route path="/terms" element={<Legal />} />
         <Route path="/pay/:id" element={<PublicInvoicePay />} />
         <Route path="/sign/:token" element={<PublicContractSign />} />
         <Route path="/u/:username" element={<PublicMediaKit />} />
         <Route path="/media-kit/:username" element={<PublicMediaKit />} />
-        {[
-          'login',
-          'register',
-          'forgot-password',
-          'verify-email',
-          'verify-reset-otp',
-          'reset-password',
-          'complete-account',
-        ].map((path) => (
-          <Route key={path} path={`/${path}`} element={<Auth />} />
-        ))}
         <Route element={<Protected />}>
           <Route element={<DashboardLayout />}>
             <Route path="/dashboard" element={<Dashboard />} />

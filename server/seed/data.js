@@ -302,7 +302,7 @@ export async function seedDatabase() {
     ]);
   }
   await User.create({
-    name: 'Workspace Admin',
+    name: 'Admin',
     email: 'admin@creatoros.demo',
     password: await bcrypt.hash('Admin@123', 12),
     role: 'admin',

@@ -4,7 +4,7 @@ import { Plus, Trash2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { resources } from '../../../shared/resources';
 import { service, message } from '../services/api';
-import { memberApi } from '../features/members/api/memberApi';
+import { memberApi } from '../services/api';
 import { Button } from './ui';
 import { money } from '../utils/format';
 export default function ResourceForm({ resource, record, onSaved, onCancel }) {

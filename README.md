@@ -32,12 +32,6 @@ The unified commercial operating system for modern creators, digital talent, and
 - **Node.js**: v18.0.0 or newer (v22 recommended)
 - **MongoDB**: Local daemon or MongoDB Atlas connection URI
 
-### 1. Installation
-```bash
-git clone <repository-url>
-cd Creator-OS
-npm install
-```
 
 ### 2. Environment Configuration
 Create `server/.env` based on the example:
