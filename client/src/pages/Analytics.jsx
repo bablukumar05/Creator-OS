@@ -59,7 +59,6 @@ export default function Analytics() {
   const insights = executive?.insights || [];
   return (
     <div className="space-y-6 max-w-7xl mx-auto">
-      {}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-3xl bg-gradient-to-r from-[#2b5341] to-[#1a382c] text-white shadow-xl">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
@@ -82,14 +81,12 @@ export default function Analytics() {
           </Button>
         </div>
       </div>
-      {}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard label="Total Revenue" value={`$${kpis.revenue?.toLocaleString() || 0}`} icon={Wallet} detail="Paid invoices total" />
         <StatCard label="Overdue Exposure" value={`$${kpis.overdueRevenue?.toLocaleString() || 0}`} icon={AlertTriangle} detail={`${kpis.overdueInvoicesCount || 0} overdue invoice(s)`} />
         <StatCard label="Active Campaigns" value={kpis.activeCampaigns || 0} icon={Zap} detail={`out of ${kpis.totalCampaigns || 0} total`} />
         <StatCard label="Total Creators" value={kpis.totalCreators || 0} icon={Users} detail="Verified roster database" />
       </div>
-      {}
       {insights.length > 0 && (
         <div className="space-y-3">
           <h2 className="text-xs font-semibold uppercase tracking-wider text-muted flex items-center gap-1.5">
@@ -121,9 +118,7 @@ export default function Analytics() {
           </div>
         </div>
       )}
-      {}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {}
         {forecast && (
           <div className="card p-5 space-y-4 flex flex-col justify-between">
             <div className="space-y-2">
@@ -161,7 +156,6 @@ export default function Analytics() {
             </div>
           </div>
         )}
-        {}
         <div className="card p-5 space-y-4 flex flex-col justify-between">
           <div className="space-y-1">
             <h3 className="text-sm font-semibold tracking-tight flex items-center gap-1.5">
@@ -186,7 +180,6 @@ export default function Analytics() {
           </div>
         </div>
       </div>
-      {}
       <div className="card p-5 space-y-4">
         <div className="flex items-center justify-between">
           <div>
@@ -233,7 +226,6 @@ export default function Analytics() {
           </table>
         </div>
       </div>
-      {}
       <button
         onClick={() => setAiOpen(true)}
         className="fixed bottom-6 right-6 z-40 flex items-center gap-2.5 px-4 py-3 rounded-full bg-gradient-to-r from-[#2b5341] to-[#1e3b2e] text-white shadow-2xl hover:scale-105 transition-all cursor-pointer border border-white/20"
@@ -241,7 +233,6 @@ export default function Analytics() {
         <Sparkles size={18} className="text-amber-300 animate-pulse" />
         <span className="text-xs font-bold tracking-tight">Ask CreatorOS AI</span>
       </button>
-      {}
       <AIAssistantDrawer isOpen={aiOpen} onClose={() => setAiOpen(false)} />
     </div>
   );

@@ -3,7 +3,7 @@ import { User } from '../models/User.js';
 import { Profile } from '../models/resources.js';
 import bcrypt from 'bcryptjs';
 import { z } from 'zod';
-import { passwordSchema } from '../controllers/authController.js';
+import { passwordSchema } from '../src/modules/auth/auth.validation.js';
 const email = z.email().parse(process.env.ADMIN_EMAIL).toLowerCase();
 const password = passwordSchema.parse(process.env.ADMIN_PASSWORD);
 try {

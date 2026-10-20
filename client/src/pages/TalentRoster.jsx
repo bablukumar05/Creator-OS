@@ -102,7 +102,6 @@ export default function TalentRoster() {
     : 0;
   return (
     <div className="space-y-6 max-w-7xl mx-auto">
-      {}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-ink flex items-center gap-2">
@@ -116,14 +115,12 @@ export default function TalentRoster() {
           <UserPlus size={15} /> Add Creator to Roster
         </Button>
       </div>
-      {}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard label="Total Talent Roster" value={totalTalent} icon={Users} detail="Active roster creators" />
         <StatCard label="Exclusive Roster" value={exclusiveCount} icon={ShieldCheck} detail="Exclusive representation" />
         <StatCard label="Managed Talent" value={managedCount} icon={UserCheck} detail="Direct campaign management" />
         <StatCard label="Avg Commission Rate" value={`${avgCommission}%`} icon={Percent} detail="Agency revenue split" />
       </div>
-      {}
       <div className="card p-4 space-y-3">
         <div className="flex flex-col sm:flex-row gap-3">
           <div className="relative flex-1">
@@ -160,7 +157,6 @@ export default function TalentRoster() {
           </div>
         </div>
       </div>
-      {}
       {loading ? (
         <Loading />
       ) : error ? (
@@ -240,7 +236,6 @@ export default function TalentRoster() {
           </div>
         </div>
       )}
-      {}
       {showAddModal && (
         <Modal title="Add Creator to Agency Roster" onClose={() => setShowAddModal(false)}>
           <form onSubmit={handleAddTalent} className="space-y-4">

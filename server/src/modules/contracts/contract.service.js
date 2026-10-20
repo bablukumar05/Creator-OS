@@ -239,6 +239,7 @@ export async function signContractPublic(token, payload, req) {
   const userAgent = req.headers['user-agent'] || 'Unknown Browser';
 
   const docData = `${contract._id}-${contract.amount}-${contract.terms || ''}-${Date.now()}`;
+  // compute sha256 checksum to seal contract state at time of signing
   const docHash = crypto.createHash('sha256').update(docData).digest('hex');
 
   contract.brandSignature = {
@@ -251,6 +252,7 @@ export async function signContractPublic(token, payload, req) {
     documentHash: docHash,
   };
 
+  // update status to active only after both brand and creator signatures exist
   const creatorHasSigned = Boolean(contract.creatorSignature?.signatureDataUrl);
   if (creatorHasSigned) {
     contract.isFullyExecuted = true;

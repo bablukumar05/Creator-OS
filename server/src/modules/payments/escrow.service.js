@@ -37,6 +37,7 @@ export async function getEscrowById(req, id) {
 export async function createEscrow(req, payload) {
   const ownerId = req.organization?.ownerId || req.user._id;
   const milestones = Array.isArray(payload.milestones) ? payload.milestones : [];
+  // sum milestone amounts or fallback to explicit totalAmount
   const totalAmount = milestones.reduce((sum, m) => sum + Number(m.amount || 0), 0) || Number(payload.totalAmount || 0);
 
   const escrow = await EscrowAccount.create({

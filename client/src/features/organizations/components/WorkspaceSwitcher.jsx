@@ -34,6 +34,7 @@ export function WorkspaceSwitcher() {
   const activeType =
     TYPE_LABELS[currentOrganization?.type] || TYPE_LABELS.creator_workspace;
   const handleSwitch = async (organizationId) => {
+    // avoid redundant network call if user re-selects current active workspace
     if (String(organizationId) === String(currentOrganization?._id)) {
       setMenuOpen(false);
       return;

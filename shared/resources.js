@@ -1,16 +1,121 @@
-export const platforms = ['YouTube', 'Instagram', 'LinkedIn', 'TikTok', 'X', 'Facebook'];
+export const platformCategories = [
+  {
+    category: 'Video & Streaming',
+    platforms: [
+      'YouTube',
+      'YouTube Shorts',
+      'YouTube Live',
+      'Vimeo',
+      'Dailymotion',
+      'Twitch',
+      'Twitch (VODs)',
+      'Kick',
+      'Rumble Live',
+      'Facebook Video',
+      'Facebook Live',
+    ],
+  },
+  {
+    category: 'Short-Form & Social Video',
+    platforms: [
+      'Instagram',
+      'Instagram Reels',
+      'TikTok',
+      'Facebook Reels',
+      'Snapchat Spotlight',
+    ],
+  },
+  {
+    category: 'Microblogging & Professional',
+    platforms: [
+      'X',
+      'X (Twitter)',
+      'Twitter',
+      'LinkedIn',
+      'LinkedIn Company Pages',
+      'Threads',
+      'Bluesky',
+      'Mastodon',
+      'Reddit',
+    ],
+  },
+  {
+    category: 'Community & Messaging',
+    platforms: [
+      'Discord',
+      'Discord Communities',
+      'Telegram Channels',
+      'WhatsApp Channels',
+      'Facebook',
+      'Facebook Groups',
+    ],
+  },
+  {
+    category: 'Memberships & Creator Monetization',
+    platforms: [
+      'Patreon',
+      'Buy Me a Coffee',
+      'Ko-fi',
+      'Fanhouse',
+    ],
+  },
+  {
+    category: 'Newsletters & Publishing',
+    platforms: [
+      'Substack',
+      'Beehiiv',
+      'ConvertKit',
+      'Ghost',
+      'Medium',
+      'Hashnode',
+      'Dev.to',
+      'WordPress',
+      'Blogger',
+    ],
+  },
+  {
+    category: 'Podcasts & Audio Distribution',
+    platforms: [
+      'Spotify for Creators',
+      'Apple Podcasts',
+      'Amazon Music Podcasts',
+      'Pocket Casts',
+      'Google Podcasts (legacy data migration)',
+    ],
+  },
+  {
+    category: 'Music & Sound',
+    platforms: [
+      'Spotify Artist',
+      'Apple Music Artist',
+      'SoundCloud',
+      'Bandcamp',
+    ],
+  },
+  {
+    category: 'Design, Art & Gaming Portfolios',
+    platforms: [
+      'Behance',
+      'Dribbble',
+      'Figma Community',
+      'Steam Creator Pages',
+    ],
+  },
+];
+
+export const platforms = Array.from(new Set(platformCategories.flatMap((c) => c.platforms)));
 const field = (key, label, type = 'text', extra = {}) => ({ key, label, type, ...extra });
 const title = field('title', 'Title', 'text', { required: true });
 const notes = field('notes', 'Notes', 'textarea');
 const desc = field('description', 'Description', 'textarea');
-const select = (key, label, options) => field(key, label, 'select', { options });
+const select = (key, label, options, extra = {}) => field(key, label, 'select', { options, ...extra });
 const status = (options) => select('status', 'Status', options);
 const date = (key, label) => field(key, label, 'date');
 const number = (key, label) => field(key, label, 'number');
 const relation = (key, label, resource) => field(key, label, 'relation', { resource });
 const brand = relation('brand', 'Brand', 'brands');
 const campaign = relation('campaign', 'Campaign', 'campaigns');
-const platform = select('platform', 'Platform', platforms);
+const platform = select('platform', 'Platform', platforms, { groups: platformCategories });
 export const resources = {
   content: {
     label: 'Content planner',

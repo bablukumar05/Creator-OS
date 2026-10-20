@@ -216,7 +216,19 @@ export default function ResourceForm({ resource, record, onSaved, onCancel }) {
                     ))}
                   </>
                 ) : (
-                  f.options.map((v) => <option key={v}>{v}</option>)
+                  f.groups ? (
+                    f.groups.map((grp) => (
+                      <optgroup key={grp.category} label={grp.category}>
+                        {grp.platforms.map((v) => (
+                          <option key={v} value={v}>
+                            {v}
+                          </option>
+                        ))}
+                      </optgroup>
+                    ))
+                  ) : (
+                    f.options.map((v) => <option key={v}>{v}</option>)
+                  )
                 )}
               </select>
             ) : (

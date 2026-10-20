@@ -173,6 +173,7 @@ export async function updateTask(req, taskId, data, rawBody = {}) {
   await verifyTaskRelationsAndAssignee(data, req.organizationId, ownerId);
   Object.assign(task, data);
   task.updatedBy = req.user._id;
+  // allow clearing nullable foreign keys when empty string passed from form
   for (const field of CLEARABLE_FIELDS) {
     if (rawBody[field] === '') {
       task.set(field, undefined);

@@ -14,6 +14,7 @@ const protectedAuthRoutes = new Set([
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
+    // handle silent session token refresh on 401 response and replay original request
     const request = error.config;
     const canRefresh =
       request &&

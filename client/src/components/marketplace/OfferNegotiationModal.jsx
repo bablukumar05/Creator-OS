@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { platformCategories } from '../../../../shared/resources';
 import { DollarSign, Send, Calendar, CheckSquare, Plus, Trash2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { Modal, Button } from '../ui';
@@ -61,7 +62,6 @@ export function OfferNegotiationModal({ creator, campaigns = [], onClose, onSucc
   return (
     <Modal title={`Send Campaign Offer: ${creator?.displayName}`} onClose={onClose} wide>
       <form onSubmit={handleSubmit} className="space-y-5">
-        {}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="space-y-1.5">
             <label className="text-xs font-semibold uppercase tracking-wider text-muted">Select Campaign</label>
@@ -94,7 +94,6 @@ export function OfferNegotiationModal({ creator, campaigns = [], onClose, onSucc
             </div>
           </div>
         </div>
-        {}
         <div className="space-y-1.5">
           <label className="text-xs font-semibold uppercase tracking-wider text-muted">Offer Expiration Date</label>
           <div className="relative">
@@ -108,7 +107,6 @@ export function OfferNegotiationModal({ creator, campaigns = [], onClose, onSucc
             <Calendar size={15} className="absolute left-2.5 top-3 text-muted pointer-events-none" />
           </div>
         </div>
-        {}
         <div className="space-y-3 pt-2">
           <div className="flex items-center justify-between">
             <label className="text-xs font-semibold uppercase tracking-wider text-muted flex items-center gap-1.5">
@@ -134,11 +132,13 @@ export function OfferNegotiationModal({ creator, campaigns = [], onClose, onSucc
                   value={item.platform}
                   onChange={(e) => updateDeliverable(idx, 'platform', e.target.value)}
                 >
-                  <option value="Instagram">Instagram</option>
-                  <option value="YouTube">YouTube</option>
-                  <option value="TikTok">TikTok</option>
-                  <option value="LinkedIn">LinkedIn</option>
-                  <option value="Twitter">Twitter/X</option>
+                  {platformCategories.map((grp) => (
+                    <optgroup key={grp.category} label={grp.category}>
+                      {grp.platforms.map((p) => (
+                        <option key={p} value={p}>{p}</option>
+                      ))}
+                    </optgroup>
+                  ))}
                 </select>
                 {deliverables.length > 1 && (
                   <button
@@ -153,7 +153,6 @@ export function OfferNegotiationModal({ creator, campaigns = [], onClose, onSucc
             ))}
           </div>
         </div>
-        {}
         <div className="space-y-1.5">
           <label className="text-xs font-semibold uppercase tracking-wider text-muted">Notes / Special Instructions</label>
           <textarea
@@ -164,7 +163,6 @@ export function OfferNegotiationModal({ creator, campaigns = [], onClose, onSucc
             onChange={(e) => setNotes(e.target.value)}
           />
         </div>
-        {}
         <div className="flex items-center justify-end gap-3 pt-3 border-t border-line">
           <Button variant="secondary" type="button" onClick={onClose}>
             Cancel

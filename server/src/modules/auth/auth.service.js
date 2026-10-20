@@ -39,6 +39,7 @@ export async function authenticate(data, req, res) {
       ? { email: identifier }
       : { phone: identifier.replace(/[\s()-]/g, '') },
   ).select('+password +sessionVersion');
+  // dummy hash comparison to mitigate user enumeration timing attacks
   const valid = await bcrypt.compare(
     data.password,
     user?.password || '$2b$12$5mN8G34yHPKNQkpgGtbjv.fvWVA5FmRvTJnAPr7WdmB11RRJFB.Mi',

@@ -35,6 +35,7 @@ export async function createStripeCheckoutSession({
   description = 'CreatorOS Invoice Payment',
 }) {
   const normalizedCurrency = currency.toLowerCase();
+  // convert amount to lowest currency unit (paise / cents)
   const unitAmount = Math.round(amount * 100);
 
   if (hasStripe && stripe) {

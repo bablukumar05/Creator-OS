@@ -15,7 +15,7 @@ import {
   subWeeks,
 } from 'date-fns';
 import { ChevronLeft, ChevronRight, Plus } from 'lucide-react';
-import { platforms } from '../../../shared/resources';
+import { platformCategories } from '../../../shared/resources';
 import { api } from '../services/api';
 import { useData } from '../hooks/useData';
 import { PageHeader, Button, ErrorState } from '../components/ui';
@@ -85,8 +85,12 @@ export default function Calendar() {
               onChange={(e) => setPlatform(e.target.value)}
             >
               <option value="">All platforms</option>
-              {platforms.map((p) => (
-                <option key={p}>{p}</option>
+              {platformCategories.map((grp) => (
+                <optgroup key={grp.category} label={grp.category}>
+                  {grp.platforms.map((p) => (
+                    <option key={p} value={p}>{p}</option>
+                  ))}
+                </optgroup>
               ))}
             </select>
             <select

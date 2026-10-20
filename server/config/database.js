@@ -22,6 +22,7 @@ export async function connectDatabase() {
       'MONGO_URI is missing. Run npm run setup:env, then save your real MongoDB URI in server/.env and run npm run db:check. npm run demo is temporary only.',
     );
   try {
+    // 10s connection timeout before falling back to formatted error
     await mongoose.connect(uri, { serverSelectionTimeoutMS: 10000 });
   } catch (error) {
     throw new Error(databaseError(error));

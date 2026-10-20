@@ -8,6 +8,7 @@ export const useUI = create((set) => ({
   setCurrency: (currency) => set({ currency }),
   toggleTheme: () =>
     set((state) => {
+      // persist user theme preference across browser sessions
       const theme = state.theme === 'light' ? 'dark' : 'light';
       localStorage.setItem('creatoros-theme', theme);
       return { theme };

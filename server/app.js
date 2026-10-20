@@ -64,6 +64,7 @@ export function createApp() {
   app.use(express.json({ limit: '100kb' }));
   app.use(cookieParser());
   app.use(
+    // rate limit api endpoints to mitigate brute force & ddos
     '/api',
     rateLimit({
       windowMs: 60000,
@@ -73,6 +74,7 @@ export function createApp() {
       message: { success: false, message: 'Too many requests. Please wait a moment.' },
     }),
   );
+  // verify csrf origin on state-mutating requests
   app.use((req, res, next) => {
     if (!['GET', 'HEAD', 'OPTIONS'].includes(req.method)) {
       const origin = req.headers.origin;

@@ -25,7 +25,7 @@ import { api, message } from '../services/api';
 import { useData } from '../hooks/useData';
 import { PageHeader, Button, Loading, ErrorState, Modal } from '../components/ui';
 import { initials } from '../utils/format';
-import { platforms } from '../../../shared/resources';
+import { platformCategories } from '../../../shared/resources';
 const tabs = [
   ['personal', 'Personal information', UserRound],
   ['workspace', 'Organization', Building2],
@@ -283,19 +283,26 @@ export default function Settings({ profilePage = false }) {
                     <p className="text-xs leading-relaxed text-muted">
                       Public links displayed on your creator portfolio and rate cards:
                     </p>
-                    {platforms.map((p) => (
-                      <div key={p}>
-                        <label className="label" htmlFor={`social-${p}`}>
-                          {p}
-                        </label>
-                        <input
-                          type="url"
-                          id={`social-${p}`}
-                          name={p}
-                          className="input"
-                          placeholder={`Your ${p} profile URL`}
-                          defaultValue={profile.socials?.[p] || ''}
-                        />
+                    {platformCategories.map((cat) => (
+                      <div key={cat.category} className="rounded-xl border border-line/60 bg-canvas/40 p-4 space-y-3">
+                        <h5 className="text-xs font-semibold text-accent uppercase tracking-wider">{cat.category}</h5>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          {cat.platforms.map((p) => (
+                            <div key={p}>
+                              <label className="label text-[11px]" htmlFor={`social-${p}`}>
+                                {p}
+                              </label>
+                              <input
+                                type="url"
+                                id={`social-${p}`}
+                                name={p}
+                                className="input text-xs"
+                                placeholder={`Your ${p} profile URL`}
+                                defaultValue={profile.socials?.[p] || ''}
+                              />
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     ))}
                   </div>

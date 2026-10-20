@@ -125,6 +125,7 @@ export async function revokeSession(userId, sessionId) {
   return Session.findOneAndDelete({ _id: sessionId, userId });
 }
 export const authenticate = asyncRoute(async (req, res, next) => {
+  // fallback to bearer header if session cookie not present (api/mobile clients)
   let token = req.cookies?.creatoros_session;
   if (!token && req.headers.authorization?.startsWith('Bearer ')) {
     token = req.headers.authorization.split(' ')[1];

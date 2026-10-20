@@ -22,6 +22,7 @@ const CLEARABLE_FIELDS = [
   'notes',
 ];
 async function verifyDealRelations(data, organizationId, ownerId) {
+  // validate brand relationship belongs to current active organization
   const targetBrandId = data.brand || data.brandId;
   if (targetBrandId) {
     const brand = await findBrandByIdWithinOrganization(targetBrandId, organizationId, ownerId, {
@@ -47,6 +48,7 @@ export async function listDeals(req) {
   const ownerId = req.organization?.ownerId || req.user._id;
   const includeDeleted = req.query.archived === 'true';
   const criteria = {};
+  // escape special characters to prevent regex injection in search
   if (req.query.search) {
     criteria.title = {
       $regex: escapeRegex(String(req.query.search).slice(0, 100)),

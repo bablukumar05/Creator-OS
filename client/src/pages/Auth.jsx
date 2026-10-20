@@ -42,6 +42,7 @@ function OtpInput({ value, onChange }) {
     <div
       className="flex justify-between gap-1.5"
       onPaste={(e) => {
+        // sanitize pasted otp to digits only and auto-advance focus
         const paste = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
         if (paste) {
           e.preventDefault();

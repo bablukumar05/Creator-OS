@@ -21,7 +21,7 @@ import {
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import CloudStorageUploader from '../features/assets/components/CloudStorageUploader';
-import { resources, platforms } from '../../../shared/resources';
+import { resources, platformCategories } from '../../../shared/resources';
 import { api, service, message, downloadInvoice } from '../services/api';
 import { memberApi } from '../features/members/api/memberApi';
 import { useData, useDebounce } from '../hooks/useData';
@@ -456,8 +456,12 @@ export default function ResourcePage({ resource }) {
               onChange={(e) => setPlatform(e.target.value)}
             >
               <option value="">All platforms</option>
-              {platforms.map((p) => (
-                <option key={p}>{p}</option>
+              {platformCategories.map((grp) => (
+                <optgroup key={grp.category} label={grp.category}>
+                  {grp.platforms.map((p) => (
+                    <option key={p} value={p}>{p}</option>
+                  ))}
+                </optgroup>
               ))}
             </select>
           )}

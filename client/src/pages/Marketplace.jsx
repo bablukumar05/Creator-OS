@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { platformCategories } from '../../../shared/resources';
 import {
   Search,
   Filter,
@@ -127,7 +128,6 @@ export default function Marketplace() {
   };
   return (
     <div className="space-y-6 max-w-7xl mx-auto">
-      {}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-3xl bg-gradient-to-r from-[#2b5341] to-[#1e3b2e] text-white shadow-xl">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
@@ -141,7 +141,6 @@ export default function Marketplace() {
             Discover verified creators, run AI-weighted campaign matching algorithms, and negotiate campaign deals under one platform.
           </p>
         </div>
-        {}
         <div className="flex flex-wrap bg-black/20 p-1.5 rounded-2xl border border-white/10 shrink-0">
           <button
             onClick={() => setActiveTab('discovery')}
@@ -169,10 +168,8 @@ export default function Marketplace() {
           </button>
         </div>
       </div>
-      {}
       {activeTab === 'discovery' && (
         <div className="space-y-6">
-          {}
           <div className="card p-4 space-y-4">
             <form
               onSubmit={(e) => {
@@ -210,10 +207,13 @@ export default function Marketplace() {
               </select>
               <select className="btn btn-secondary py-1 text-xs" value={platform} onChange={(e) => setPlatform(e.target.value)}>
                 <option value="">All Platforms</option>
-                <option value="Instagram">Instagram</option>
-                <option value="YouTube">YouTube</option>
-                <option value="TikTok">TikTok</option>
-                <option value="LinkedIn">LinkedIn</option>
+                {platformCategories.map((grp) => (
+                  <optgroup key={grp.category} label={grp.category}>
+                    {grp.platforms.map((p) => (
+                      <option key={p} value={p}>{p}</option>
+                    ))}
+                  </optgroup>
+                ))}
               </select>
               <select className="btn btn-secondary py-1 text-xs" value={availability} onChange={(e) => setAvailability(e.target.value)}>
                 <option value="">Any Availability</option>
@@ -232,7 +232,6 @@ export default function Marketplace() {
               </label>
             </div>
           </div>
-          {}
           {loading ? (
             <Loading />
           ) : error ? (
@@ -249,7 +248,6 @@ export default function Marketplace() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
               {creators.map((creator) => (
                 <div key={creator._id} className="card p-5 space-y-4 hover:shadow-lg transition-all flex flex-col justify-between">
-                  {}
                   <div className="space-y-3">
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex items-center gap-3">
@@ -269,7 +267,6 @@ export default function Marketplace() {
                       <Badge>{creator.availabilityStatus || 'Available'}</Badge>
                     </div>
                     <p className="text-xs text-muted line-clamp-2 leading-relaxed">{creator.bio || 'Professional content creator.'}</p>
-                    {}
                     <div className="grid grid-cols-2 gap-2 p-3 rounded-xl bg-canvas border border-line text-xs">
                       <div>
                         <span className="text-muted block text-[10px] uppercase font-medium">Client Rating</span>
@@ -284,7 +281,6 @@ export default function Marketplace() {
                         </span>
                       </div>
                     </div>
-                    {}
                     <div className="flex flex-wrap gap-1.5">
                       {creator.platforms?.map((p) => (
                         <span key={p} className="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-card border border-line text-muted">
@@ -298,7 +294,6 @@ export default function Marketplace() {
                       ))}
                     </div>
                   </div>
-                  {}
                   <div className="flex items-center gap-2 pt-3 border-t border-line">
                     <Button
                       variant="secondary"
@@ -321,7 +316,6 @@ export default function Marketplace() {
           )}
         </div>
       )}
-      {}
       {activeTab === 'matcher' && (
         <div className="space-y-6">
           <div className="card p-6 space-y-4">
@@ -353,7 +347,6 @@ export default function Marketplace() {
               </div>
             </div>
           </div>
-          {}
           {matchingLoading ? (
             <Loading />
           ) : matches.length === 0 ? (
@@ -374,7 +367,6 @@ export default function Marketplace() {
                 {matches.map((item) => (
                   <div key={item.creator._id} className="card p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 hover:border-emerald-600/30 transition-all">
                     <div className="flex items-center gap-4">
-                      {}
                       <div className={`flex flex-col items-center justify-center shrink-0 w-14 h-14 rounded-2xl font-bold text-lg border ${
                         item.score >= 80 ? 'bg-emerald-50 text-emerald-800 border-emerald-300 dark:bg-emerald-950 dark:text-emerald-200' : 'bg-amber-50 text-amber-800 border-amber-300 dark:bg-amber-950 dark:text-amber-200'
                       }`}>
@@ -417,7 +409,6 @@ export default function Marketplace() {
           )}
         </div>
       )}
-      {}
       {activeTab === 'offers' && (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
@@ -481,7 +472,6 @@ export default function Marketplace() {
           )}
         </div>
       )}
-      {}
       {selectedMatch && (
         <MatchScoreVisualizer
           match={selectedMatch}

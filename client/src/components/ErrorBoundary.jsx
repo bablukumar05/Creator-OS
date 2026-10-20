@@ -2,6 +2,7 @@ import { Component } from 'react';
 import { Logo } from './ui';
 export default class ErrorBoundary extends Component {
   state = { failed: false };
+  // catch uncaught render errors to prevent blank screen crashes
   static getDerivedStateFromError() {
     return { failed: true };
   }

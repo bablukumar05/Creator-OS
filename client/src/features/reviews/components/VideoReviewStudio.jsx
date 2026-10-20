@@ -20,6 +20,7 @@ import { Button, Badge, Loading } from '../../../components/ui';
 
 const SAMPLE_DEMO_VIDEO = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
 
+// format raw playback seconds into mm:ss display format
 function formatTime(seconds) {
   const s = Math.floor(seconds || 0);
   const mins = Math.floor(s / 60).toString().padStart(2, '0');

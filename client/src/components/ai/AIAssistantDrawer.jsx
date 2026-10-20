@@ -69,7 +69,6 @@ export function AIAssistantDrawer({ isOpen, onClose }) {
   return (
     <div className="fixed inset-0 z-50 flex justify-end bg-black/40 backdrop-blur-xs">
       <div className="w-full max-w-lg bg-card border-l border-line h-full flex flex-col shadow-2xl animate-in slide-in-from-right duration-200">
-        {}
         <div className="flex items-center justify-between p-4 border-b border-line bg-gradient-to-r from-[#2b5341] to-[#1e3b2e] text-white">
           <div className="flex items-center gap-2.5">
             <span className="p-1.5 rounded-xl bg-white/10 text-amber-300">
@@ -84,7 +83,6 @@ export function AIAssistantDrawer({ isOpen, onClose }) {
             <X size={18} />
           </button>
         </div>
-        {}
         <div className="flex-1 overflow-y-auto p-4 space-y-4 text-xs">
           {messages.map((msg, idx) => (
             <div
@@ -104,7 +102,6 @@ export function AIAssistantDrawer({ isOpen, onClose }) {
                 >
                   {msg.content}
                 </div>
-                {}
                 {msg.visualization && (
                   <div className="p-3 rounded-xl border border-line bg-card space-y-2 text-left shadow-xs">
                     <span className="text-[10px] uppercase font-bold text-muted tracking-wider flex items-center gap-1">
@@ -151,7 +148,6 @@ export function AIAssistantDrawer({ isOpen, onClose }) {
           )}
           <div ref={chatEndRef} />
         </div>
-        {}
         <div className="px-4 py-2 bg-canvas/50 border-t border-line space-y-1.5">
           <span className="text-[10px] uppercase font-bold text-muted tracking-wider flex items-center gap-1">
             <HelpCircle size={10} /> Suggested Questions
@@ -168,7 +164,6 @@ export function AIAssistantDrawer({ isOpen, onClose }) {
             ))}
           </div>
         </div>
-        {}
         <form
           onSubmit={(e) => {
             e.preventDefault();

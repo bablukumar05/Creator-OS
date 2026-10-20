@@ -129,6 +129,7 @@ export async function updateOrganizationMember(organizationId, targetMemberId, u
   if (!member) {
     throw new ApiError(404, 'Member not found.');
   }
+  // prevent modifying or demoting primary organization owner
   if (member.role === 'owner') {
     throw new ApiError(403, 'The organization owner membership cannot be modified or demoted.');
   }

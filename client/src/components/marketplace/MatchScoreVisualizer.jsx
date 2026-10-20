@@ -10,9 +10,7 @@ export function MatchScoreVisualizer({ match, campaignName, onClose, onSendOffer
   return (
     <Modal title={`AI Match Analysis: ${creator.displayName}`} onClose={onClose} wide>
       <div className="space-y-6">
-        {}
         <div className="flex flex-col sm:flex-row items-center gap-6 p-5 rounded-2xl bg-canvas border border-line">
-          {}
           <div className="relative flex items-center justify-center shrink-0">
             <svg width="100" height="100" className="-rotate-90">
               <circle cx="50" cy="50" r="40" stroke="currentColor" strokeWidth="8" className="text-line" fill="transparent" />
@@ -54,7 +52,6 @@ export function MatchScoreVisualizer({ match, campaignName, onClose, onSendOffer
             </div>
           </div>
         </div>
-        {}
         <div className="space-y-3">
           <h4 className="text-xs font-semibold uppercase tracking-wider text-muted flex items-center gap-1.5">
             <Sparkles size={14} className="text-emerald-600" /> AI Score Breakdown & Match Factors
@@ -77,7 +74,6 @@ export function MatchScoreVisualizer({ match, campaignName, onClose, onSendOffer
             )}
           </div>
         </div>
-        {}
         <div className="p-4 rounded-xl border border-line bg-canvas/50 flex flex-wrap items-center justify-between gap-4">
           <div className="space-y-1">
             <span className="text-xs font-medium text-muted">Primary Platforms</span>
@@ -96,7 +92,6 @@ export function MatchScoreVisualizer({ match, campaignName, onClose, onSendOffer
             </div>
           </div>
         </div>
-        {}
         <div className="flex flex-wrap items-center justify-end gap-3 pt-2 border-t border-line">
           <Button variant="secondary" onClick={onClose}>
             Close
