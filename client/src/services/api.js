@@ -9,7 +9,7 @@ export const api = axios.create({
     return raw;
   })(),
   withCredentials: true,
-  timeout: 20000,
+  timeout: 60000,
 });
 let refreshing;
 const protectedAuthRoutes = new Set([
