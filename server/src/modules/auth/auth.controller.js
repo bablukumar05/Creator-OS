@@ -18,7 +18,7 @@ export async function register(req, res) {
 
 export async function login(req, res) {
   const result = await service.loginUser(loginSchema.parse(req.body), req, res);
-  ok(res, { user: safeUser(result.user), organization: result.organization }, 'Signed in successfully.');
+  ok(res, { user: safeUser(result.user), organization: result.organization, token: result.token }, 'Signed in successfully.');
 }
 
 export async function logout(req, res) {
@@ -27,8 +27,8 @@ export async function logout(req, res) {
 }
 
 export async function refresh(req, res) {
-  const { user } = await service.refresh(req, res);
-  ok(res, safeUser(user), 'Session refreshed.');
+  const { user, token } = await service.refresh(req, res);
+  ok(res, { ...safeUser(user), token }, 'Session refreshed.');
 }
 
 export async function forgotPassword(req, res) {

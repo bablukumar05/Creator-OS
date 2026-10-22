@@ -136,7 +136,8 @@ export default function Auth() {
       if (isLogin) {
         const response = await api.post('/auth/login', values);
         const userData = response.data.data?.user || response.data.data;
-        setUser(userData);
+        if (response.data.data?.token) localStorage.setItem('creatoros_token', response.data.data.token);
+      setUser(userData);
         navigate(userData?.role === 'admin' ? '/admin' : '/dashboard', { replace: true });
         toast.success('Welcome back.');
       } else if (isRegister) {
@@ -155,7 +156,8 @@ export default function Auth() {
         );
         if (route === 'verify-email') {
           const userData = response.data.data?.user || response.data.data;
-          setUser(userData);
+          if (response.data.data?.token) localStorage.setItem('creatoros_token', response.data.data.token);
+      setUser(userData);
           navigate(userData?.role === 'admin' ? '/admin' : '/dashboard', { replace: true });
           toast.success('Email verified.');
         } else navigate('/reset-password');
@@ -180,6 +182,7 @@ export default function Auth() {
         password: role === 'admin' ? 'Admin@123' : 'Creator@123',
       });
       const userData = response.data.data?.user || response.data.data;
+      if (response.data.data?.token) localStorage.setItem('creatoros_token', response.data.data.token);
       setUser(userData);
       navigate(userData?.role === 'admin' ? '/admin' : '/dashboard', { replace: true });
     } catch (e) {

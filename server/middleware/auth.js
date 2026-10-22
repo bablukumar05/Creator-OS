@@ -33,6 +33,7 @@ function setAccessCookie(res, user, session) {
     },
   );
   res.cookie('creatoros_session', token, { ...cookieOptions, maxAge: accessLifetime });
+  return token;
 }
 function setRefreshCookie(res, token) {
   res.cookie('creatoros_refresh', token, { ...refreshCookieOptions, maxAge: refreshLifetime });
@@ -54,9 +55,9 @@ export async function createSession(req, res, user) {
     expiresAt: new Date(Date.now() + refreshLifetime),
     lastUsedAt: new Date(),
   });
-  setAccessCookie(res, user, session);
+  const token = setAccessCookie(res, user, session);
   setRefreshCookie(res, refreshToken);
-  return session;
+  return { session, token };
 }
 export async function refreshSession(req, res) {
   const refreshToken = req.cookies.creatoros_refresh;
@@ -79,9 +80,9 @@ export async function refreshSession(req, res) {
   session.tokenHash = tokenHash(nextRefreshToken);
   session.lastUsedAt = new Date();
   await session.save();
-  setAccessCookie(res, user, session);
+  const token = setAccessCookie(res, user, session);
   setRefreshCookie(res, nextRefreshToken);
-  return { user, session };
+  return { user, session, token };
 }
 async function sessionFromToken(token) {
   try {
