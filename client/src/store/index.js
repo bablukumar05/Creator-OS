@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { api } from '../services/api';
 import { organizationApi } from '../services/api';
+import { getStoredToken, removeStoredToken } from '../utils/token';
 let initialization;
 export const useUI = create((set) => ({
   theme: localStorage.getItem('creatoros-theme') || 'light',
@@ -21,8 +22,8 @@ export const useOrganization = create((set, get) => ({
   permissions: [],
   loading: false,
   loadOrganizations: async () => {
-    const hasToken = typeof localStorage !== 'undefined' && !!localStorage.getItem('creatoros_token');
-    if (!hasToken && !useAuth.getState().user) {
+    const token = getStoredToken();
+    if (!token && !useAuth.getState().user) {
       set({ loading: false });
       return null;
     }
@@ -103,40 +104,51 @@ export const useOrganization = create((set, get) => ({
 }));
 export const useAuth = create((set) => ({
   user: null,
-  loading: true,
+  loading: !!(typeof localStorage !== 'undefined' && getStoredToken()),
   config: {},
   init: () =>
     (initialization ||= (async () => {
+      // Non-blocking fetch of auth configuration for login/social auth
+      api.get('/auth/config')
+        .then((res) => {
+          if (res?.data?.data) {
+            set({ config: res.data.data });
+          }
+        })
+        .catch(() => {});
+
+      const token = getStoredToken();
+      if (!token) {
+        set({ user: null, loading: false });
+        return;
+      }
       try {
-        const config = (await api.get('/auth/config')).data.data;
-        set({ config });
-        const hasToken = typeof localStorage !== 'undefined' && !!localStorage.getItem('creatoros_token');
-        if (!hasToken) {
-          set({ user: null });
-          return;
-        }
         const user = (await api.get('/auth/me')).data.data;
-        set({ user });
+        set({ user, loading: false });
         if (user) {
           await useOrganization.getState().loadOrganizations();
         }
       } catch {
-        set({ user: null });
-      } finally {
-        set({ loading: false });
+        removeStoredToken();
+        useOrganization.getState().reset();
+        set({ user: null, loading: false });
       }
     })()),
   setUser: (user) => {
-    set({ user });
+    set({ user, loading: false });
     if (user) {
       useOrganization.getState().loadOrganizations();
     } else {
+      removeStoredToken();
       useOrganization.getState().reset();
     }
   },
   logout: async () => {
-    await api.post('/auth/logout');
+    try {
+      await api.post('/auth/logout');
+    } catch {}
+    removeStoredToken();
     useOrganization.getState().reset();
-    set({ user: null });
+    set({ user: null, loading: false });
   },
 }));

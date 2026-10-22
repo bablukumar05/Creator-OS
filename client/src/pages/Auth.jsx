@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { ArrowLeft, ArrowRight, Eye, EyeOff, Check, ShieldCheck, Leaf } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { api, message } from '../services/api';
+import { setStoredToken } from '../utils/token';
 import { useAuth } from '../store';
 import { Button, Logo } from '../components/ui';
 import { PageBackground } from '../components/ui';
@@ -136,7 +137,7 @@ export default function Auth() {
       if (isLogin) {
         const response = await api.post('/auth/login', values);
         const userData = response.data.data?.user || response.data.data;
-        if (response.data.data?.token) localStorage.setItem('creatoros_token', response.data.data.token);
+        if (response.data.data?.token) setStoredToken(response.data.data.token);
       setUser(userData);
         navigate(userData?.role === 'admin' ? '/admin' : '/dashboard', { replace: true });
         toast.success('Welcome back.');
@@ -156,7 +157,7 @@ export default function Auth() {
         );
         if (route === 'verify-email') {
           const userData = response.data.data?.user || response.data.data;
-          if (response.data.data?.token) localStorage.setItem('creatoros_token', response.data.data.token);
+          if (response.data.data?.token) setStoredToken(response.data.data.token);
       setUser(userData);
           navigate(userData?.role === 'admin' ? '/admin' : '/dashboard', { replace: true });
           toast.success('Email verified.');
@@ -182,7 +183,7 @@ export default function Auth() {
         password: role === 'admin' ? 'Admin@123' : 'Creator@123',
       });
       const userData = response.data.data?.user || response.data.data;
-      if (response.data.data?.token) localStorage.setItem('creatoros_token', response.data.data.token);
+      if (response.data.data?.token) setStoredToken(response.data.data.token);
       setUser(userData);
       navigate(userData?.role === 'admin' ? '/admin' : '/dashboard', { replace: true });
     } catch (e) {

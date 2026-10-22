@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect } from 'react';
 import { Routes, Route, Navigate, Outlet, Link } from 'react-router-dom';
+import Landing from './pages/Landing';
 import { useAuth, useUI } from './store';
 import { Loading, Logo } from './components/ui';
 import { resources } from '../../shared/resources';
@@ -12,7 +13,6 @@ const Calendar = lazy(() => import('./pages/Calendar'));
 const Analytics = lazy(() => import('./pages/Analytics'));
 const Settings = lazy(() => import('./pages/Settings'));
 const Admin = lazy(() => import('./pages/Admin'));
-const Landing = lazy(() => import('./pages/Landing'));
 const Legal = lazy(() => import('./pages/Legal'));
 const Marketplace = lazy(() => import('./pages/Marketplace'));
 const TalentRoster = lazy(() => import('./pages/TalentRoster'));

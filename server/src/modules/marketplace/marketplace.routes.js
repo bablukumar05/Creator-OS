@@ -11,4 +11,4 @@ marketplaceRouter.post('/invitations', requireOrganization, asyncRoute(controlle
 marketplaceRouter.post('/offers', asyncRoute(controller.createOfferHandler));
 marketplaceRouter.post('/offers/:offerId/accept', asyncRoute(controller.acceptOfferHandler));
 marketplaceRouter.post('/reviews', requireOrganization, asyncRoute(controller.createReview));
-marketplaceRouter.post('/campaigns/:campaignId/matches', requireOrganization, asyncRoute(controller.matchCampaign));
+marketplaceRouter.all(['/campaigns/:campaignId/matches', '/campaigns/:campaignId/match'], requireOrganization, asyncRoute(controller.matchCampaign));

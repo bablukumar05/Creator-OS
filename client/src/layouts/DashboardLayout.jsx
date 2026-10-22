@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { getStoredToken } from '../utils/token';
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard,
@@ -119,7 +120,7 @@ export default function DashboardLayout() {
       .get('/profile')
       .then((r) => setCurrency(r.data.data?.currency || 'INR'))
       .catch(() => {});
-    const token = typeof localStorage !== 'undefined' ? localStorage.getItem('creatoros_token') : null;
+    const token = getStoredToken();
     const socket = io(
       import.meta.env.VITE_API_URL?.startsWith('http')
         ? new URL(import.meta.env.VITE_API_URL).origin

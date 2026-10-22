@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getStoredToken, setStoredToken, removeStoredToken } from '../utils/token';
 export const api = axios.create({
   baseURL: (() => {
     let raw = import.meta.env.VITE_API_URL || '/api/v1';
@@ -19,7 +20,7 @@ const protectedAuthRoutes = new Set([
   '/auth/change-password',
 ]);
 api.interceptors.request.use((config) => {
-  const token = typeof localStorage !== 'undefined' ? localStorage.getItem('creatoros_token') : null;
+  const token = getStoredToken();
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -31,21 +32,30 @@ api.interceptors.response.use(
   async (error) => {
     // handle silent session token refresh on 401 response and replay original request
     const request = error.config;
-    const hasToken = typeof localStorage !== 'undefined' && !!localStorage.getItem('creatoros_token');
-    const canRefresh = hasToken &&
+    const token = getStoredToken();
+    const canRefresh = !!token &&
       request &&
       !request._retriedAfterRefresh &&
       request.url !== '/auth/refresh' &&
       (!request.url?.startsWith('/auth/') || protectedAuthRoutes.has(request.url));
-    if (error.response?.status !== 401 || !canRefresh) return Promise.reject(error);
+    if (error.response?.status !== 401 || !canRefresh) {
+      if (error.response?.status === 401) {
+        removeStoredToken();
+      }
+      return Promise.reject(error);
+    }
     request._retriedAfterRefresh = true;
     try {
       refreshing ||= api.post('/auth/refresh').finally(() => {
         refreshing = undefined;
       });
-      await refreshing;
+      const refreshRes = await refreshing;
+      if (refreshRes?.data?.data?.token) {
+        setStoredToken(refreshRes.data.data.token);
+      }
       return api(request);
     } catch (refreshError) {
+      removeStoredToken();
       window.dispatchEvent(new Event('session-expired'));
       return Promise.reject(refreshError);
     }
