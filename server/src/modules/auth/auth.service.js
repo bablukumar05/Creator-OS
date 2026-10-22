@@ -51,8 +51,8 @@ export async function authenticate(data, req, res) {
   user.lastLogin = new Date();
   await user.save();
   const { organization } = await ensureDefaultOrganization(user);
-  await createSession(req, res, user, data.remember);
-  return { user, organization };
+  const sessionData = await createSession(req, res, user, data.remember);
+  return { user, organization, token: sessionData?.token };
 }
 export async function logout(user, session, res) {
   await revokeSession(user._id, session._id);

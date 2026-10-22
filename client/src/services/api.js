@@ -31,7 +31,8 @@ api.interceptors.response.use(
   async (error) => {
     // handle silent session token refresh on 401 response and replay original request
     const request = error.config;
-    const canRefresh =
+    const hasToken = typeof localStorage !== 'undefined' && !!localStorage.getItem('creatoros_token');
+    const canRefresh = hasToken &&
       request &&
       !request._retriedAfterRefresh &&
       request.url !== '/auth/refresh' &&

@@ -21,6 +21,11 @@ export const useOrganization = create((set, get) => ({
   permissions: [],
   loading: false,
   loadOrganizations: async () => {
+    const hasToken = typeof localStorage !== 'undefined' && !!localStorage.getItem('creatoros_token');
+    if (!hasToken && !useAuth.getState().user) {
+      set({ loading: false });
+      return null;
+    }
     set({ loading: true });
     try {
       const [listData, currentData] = await Promise.all([
@@ -105,6 +110,11 @@ export const useAuth = create((set) => ({
       try {
         const config = (await api.get('/auth/config')).data.data;
         set({ config });
+        const hasToken = typeof localStorage !== 'undefined' && !!localStorage.getItem('creatoros_token');
+        if (!hasToken) {
+          set({ user: null });
+          return;
+        }
         const user = (await api.get('/auth/me')).data.data;
         set({ user });
         if (user) {
