@@ -60,7 +60,43 @@ export function createApp() {
   app.disable('x-powered-by');
   if (env.production) app.set('trust proxy', 1);
   app.use(helmet());
-  app.use(cors({ origin: env.client, credentials: true }));
+  const isAllowedOrigin = (origin) => {
+    if (!origin) return true;
+    if (origin === env.client) return true;
+    if (origin === 'https://creator-os-lake.vercel.app') return true;
+    if (/^https:\/\/creator-os-[a-z0-9-]+\.vercel\.app$/i.test(origin)) return true;
+    if (origin === 'http://localhost:5173' || origin === 'http://localhost:5000') return true;
+    return false;
+  };
+
+  app.use(
+    cors({
+      origin: (origin, callback) => {
+        if (isAllowedOrigin(origin)) {
+          callback(null, origin || true);
+        } else {
+          callback(new ApiError(403, 'CORS: Origin not allowed.'));
+        }
+      },
+      credentials: true,
+    }),
+  );
+
+  // automatically rewrite endpoints called without /api (e.g. /auth/login -> /api/auth/login)
+  app.use((req, res, next) => {
+    if (!req.url.startsWith('/api') && !req.url.startsWith('/socket.io') && req.url !== '/') {
+      req.url = '/api' + req.url;
+    }
+    next();
+  });
+
+  app.get('/', (req, res) => {
+    res.json({
+      success: true,
+      message: 'CreatorOS API Server is running.',
+      version: '1.0.0',
+    });
+  });
   app.use(express.json({ limit: '100kb' }));
   app.use(cookieParser());
   app.use(
@@ -78,7 +114,7 @@ export function createApp() {
   app.use((req, res, next) => {
     if (!['GET', 'HEAD', 'OPTIONS'].includes(req.method)) {
       const origin = req.headers.origin;
-      if (origin && origin !== env.client)
+      if (origin && !isAllowedOrigin(origin))
         return next(new ApiError(403, 'Untrusted request origin.'));
       if (env.production && !origin)
         return next(new ApiError(403, 'A trusted Origin header is required.'));

@@ -27,4 +27,4 @@ validateRuntime(env);
 env.client = new URL(env.client).origin;
 env.server = new URL(env.server).origin;
 
-export const cookieOptions = { httpOnly: true, secure: env.production, sameSite: 'lax', path: '/' };
+export const cookieOptions = { httpOnly: true, secure: env.production, sameSite: env.production ? 'none' : 'lax', path: '/' };
