@@ -16,14 +16,41 @@ try {
   if (env.demo) await seedDatabase();
   const app = createApp();
   const server = http.createServer(app);
-  const io = new Server(server, { cors: { origin: env.client, credentials: true } });
+
+  const isAllowedOrigin = (origin) => {
+    if (!origin) return true;
+    if (origin === env.client) return true;
+    if (origin === 'https://creator-os-lake.vercel.app') return true;
+    if (/^https:\/\/creator-os-[a-z0-9-]+\.vercel\.app$/i.test(origin)) return true;
+    if (origin === 'http://localhost:5173' || origin === 'http://localhost:5000') return true;
+    return false;
+  };
+
+  const io = new Server(server, {
+    cors: {
+      origin: (origin, callback) => {
+        if (isAllowedOrigin(origin)) {
+          callback(null, origin || true);
+        } else {
+          callback(new Error('CORS: Origin not allowed'));
+        }
+      },
+      credentials: true,
+    },
+  });
   app.set('io', io);
   io.use(async (socket, next) => {
-    const token = socket.handshake.headers.cookie
-      ?.split(';')
-      .map((v) => v.trim())
-      .find((v) => v.startsWith('creatoros_session='))
-      ?.slice(18);
+    let token = socket.handshake.auth?.token;
+    if (!token && socket.handshake.headers.authorization?.startsWith('Bearer ')) {
+      token = socket.handshake.headers.authorization.split(' ')[1];
+    }
+    if (!token) {
+      token = socket.handshake.headers.cookie
+        ?.split(';')
+        .map((v) => v.trim())
+        .find((v) => v.startsWith('creatoros_session='))
+        ?.slice(18);
+    }
     const user = await userFromToken(token);
     if (!user) return next(new Error('Unauthorized'));
     socket.user = user;

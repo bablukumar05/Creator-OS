@@ -119,11 +119,12 @@ export default function DashboardLayout() {
       .get('/profile')
       .then((r) => setCurrency(r.data.data?.currency || 'INR'))
       .catch(() => {});
+    const token = typeof localStorage !== 'undefined' ? localStorage.getItem('creatoros_token') : null;
     const socket = io(
       import.meta.env.VITE_API_URL?.startsWith('http')
         ? new URL(import.meta.env.VITE_API_URL).origin
         : undefined,
-      { withCredentials: true },
+      { withCredentials: true, auth: { token } },
     );
     socket.on('notification', (notice) => {
       toast(notice.title);
